@@ -1,0 +1,1 @@
+from appInvest import app
