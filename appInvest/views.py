@@ -41,7 +41,19 @@ def investmentForm():
 @app.route("/perfil/", methods=['GET', 'POST'])
 @login_required
 def perfil():
-    return render_template('perfil.html', investidor=current_user)
+    investimento_id = request.form.get("investimento_id")
+    previsaoCota = request.form.get("previsaoCota")
+
+    resultado = None
+
+    if investimento_id and previsaoCota:
+        investimento = Imobiliario.query.get(investimento_id)
+
+        previsaoCota = float(previsaoCota)
+
+        resultado = round( previsaoCota * investimento.quantidades_cotas, 2)
+        
+    return render_template('perfil.html', investidor=current_user, resultado=resultado,  investimento_calculado_id=int(investimento_id))
 
 
 @app.route("/logout/")
