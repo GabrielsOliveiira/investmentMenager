@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>perfil</title>
+</head>
+<body>
+    <h1>oi {{ investidor.name }}</h1>
+    <ul>
+    {% for investimento in investidor.investimentos %}
+        <li>{{ investimento.name }}<br/> investido:{{ investimento.invested_value }} com {{ investimento.quantidades_cotas|int }} cotas</li>
+    {% endfor %}
+    </ul>
+    <a href="{{url_for('logout')}}">Deslogar</a>
+    <a href="{{url_for('investmentForm')}}">Adicionar investimento</a>
+</body>
+</html>

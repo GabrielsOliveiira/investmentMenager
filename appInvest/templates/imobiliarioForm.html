@@ -8,6 +8,11 @@
 </head>
 <body>
     <div class="container">
+        <div class="row mt-4">
+            <h3>Investors</h3>
+        </div>
+        
+
 
         <div class="row">
             <h3>Criar conta</h3>
@@ -19,13 +24,22 @@
             {{ form.name.label() }}
             {{ form.name() }}
 
-            {{ form.email.label() }}
-            {{ form.email() }}
+            {{ form.invested_value.label() }}
+            {{ form.invested_value() }}
+
+            {{ form.dividend_received.label() }}
+            {{ form.dividend_received() }}
+
+            {{ form.current_value.label() }}
+            {{ form.current_value() }}
+
+            {{ form.quantidades_cotas.label() }}
+            {{ form.quantidades_cotas() }}
 
             {{ form.btnSubmit() }}
         </form>
-        <a href="{{url_for('homepage')}}">Voltar</a>
-
+        
+        <a href="{{url_for('perfil')}}">Voltar</a>
 
     </div>
 </body>

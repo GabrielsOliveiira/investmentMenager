@@ -1,53 +1,51 @@
 from appInvest import app, db
 from flask import render_template, url_for, request, redirect
-from datetime import datetime
+from flask_login import current_user, login_required, login_user, logout_user
 
-from appInvest.forms import InvestorForm
+from appInvest.forms import InvestorForm, ImobiliarioForm
 from appInvest.models import Investor
 
 @app.route("/")
 def homepage():
-    usuario = "ca"
-    idade = 16
-    context = {
-        "usuario": usuario,
-        "idade": idade
-    }
-    return render_template('index.html', context=context)
+    return render_template('index.html')
 
-@app.route("/login/", methods=['GET', 'POST'])
+@app.route("/cadastrar/", methods=['GET', 'POST'])
 def invertorForm():
     form = InvestorForm()
-    context = {}
     if form.validate_on_submit():
         form.save()
         return redirect(url_for("homepage"))
 
-    return render_template('investorForm.html', context=context, form=form)
+    return render_template('investorForm.html', form=form)
 
-# app.route("/loginOld/", methods=['GET', 'POST'])
-# def loginOld():
-#     context = {}
-#     if request.method == "GET":
-#         pesquisa = request.args.get('pesquisa')
-#         context.update({'pesquisa': pesquisa})
-#         print(context)
+@app.route("/login/", methods=['GET', 'POST'])
+def login():
+    email = request.args.get("email")
+    investidor = Investor.query.filter_by(email=email).first()
 
-#     if request.method == "POST":
-#         date = request.form['date']
-#         name = request.form['name']
-#         cpf = request.form['cpf']
-#         email = request.form['email']
+    if investidor:
+         login_user(investidor)
+         return redirect(url_for("perfil"))
+    
+    return render_template('login.html')
 
-#         date = datetime.strptime(date, '%Y-%m-%d').date()
+@app.route("/cadastrar investimento/", methods=['GET', 'POST'])
+@login_required
+def investmentForm():
+    form = ImobiliarioForm()
+    if form.validate_on_submit():
+        form.save()
+        return redirect(url_for("perfil"))
+    return render_template('imobiliarioForm.html', form=form)
 
-#         investor = Investor(
-#             birth_date = date,
-#             name = name,
-#             cpf = cpf,
-#             email = email
-#         )
-#         db.session.add(investor)
-#         db.session.commit()
+@app.route("/perfil/")
+@login_required
+def perfil():   
+    return render_template('perfil.html', investidor=current_user)
 
-#     return render_template('investorFormOld.html', context=context)
+
+@app.route("/logout/")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("homepage"))
