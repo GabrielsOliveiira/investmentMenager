@@ -6,10 +6,17 @@
     <title>perfil</title>
 </head>
 <body>
-    <h1>oi {{ investidor.name }}</h1>
+    <h1>{{ investidor.name }}</h1>
     <ul>
     {% for investimento in investidor.investimentos %}
-        <li>{{ investimento.name }}<br/> investido:{{ investimento.invested_value }} com {{ investimento.quantidades_cotas|int }} cotas</li>
+        <li>{{ investimento.name }}<br/>
+            investido: {{ investimento.invested_value }}<br/>
+            Cotas: {{ investimento.quantidades_cotas|int }}<br/>
+            Valor por cota: {{ investimento.invested_value/investimento.quantidades_cotas|int }}
+        </li>
+        <form action="{{ url_for('deleteInvestment', id=investimento.id) }}">
+            <button type="submit">Deletar</button>
+        </form>
     {% endfor %}
     </ul>
     <a href="{{url_for('logout')}}">Deslogar</a>

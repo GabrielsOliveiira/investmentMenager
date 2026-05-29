@@ -3,7 +3,7 @@ from flask import render_template, url_for, request, redirect
 from flask_login import current_user, login_required, login_user, logout_user
 
 from appInvest.forms import InvestorForm, ImobiliarioForm
-from appInvest.models import Investor
+from appInvest.models import Investor, Imobiliario
 
 @app.route("/")
 def homepage():
@@ -18,7 +18,7 @@ def invertorForm():
 
     return render_template('investorForm.html', form=form)
 
-@app.route("/login/", methods=['GET', 'POST'])
+@app.route("/login/")
 def login():
     email = request.args.get("email")
     investidor = Investor.query.filter_by(email=email).first()
@@ -27,7 +27,7 @@ def login():
          login_user(investidor)
          return redirect(url_for("perfil"))
     
-    return render_template('login.html')
+    return render_template('login.html', naoEncontrado=email)
 
 @app.route("/cadastrar investimento/", methods=['GET', 'POST'])
 @login_required
@@ -38,9 +38,9 @@ def investmentForm():
         return redirect(url_for("perfil"))
     return render_template('imobiliarioForm.html', form=form)
 
-@app.route("/perfil/")
+@app.route("/perfil/", methods=['GET', 'POST'])
 @login_required
-def perfil():   
+def perfil():
     return render_template('perfil.html', investidor=current_user)
 
 
@@ -49,3 +49,16 @@ def perfil():
 def logout():
     logout_user()
     return redirect(url_for("homepage"))
+
+@app.route("/deleteInvestment/<int:id>")
+@login_required
+def deleteInvestment(id):
+    investment = Imobiliario.query.get_or_404(id)
+
+    if investment.investors_id != current_user.id:
+        return "Não autorizado", 403
+
+    db.session.delete(investment)
+    db.session.commit()
+
+    return redirect(url_for("perfil"))

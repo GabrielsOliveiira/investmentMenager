@@ -8,6 +8,10 @@
         <input type="text" name="email">
         <button type="submit">Entrar</button>
     </form>
+    <a href="{{url_for('homepage')}}">Voltar</a>
+    {% if naoEncontrado %}
+    <h4>Nenhuma usuário foi encontrado</h4>
+    {% endif %}
 </head>
 <body>
     
