@@ -32,7 +32,7 @@
                 <button type="submit">Calcular lucro/perda</button><br/>
             </form>
 
-            {% if context.resultado_lucro %}
+            {% if context.resultado_lucro and context.valor_cota %}
             Valor a receber: {{ context.resultado_lucro }}<br/>
             {% endif %}
 

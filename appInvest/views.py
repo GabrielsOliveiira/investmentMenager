@@ -2,6 +2,7 @@ from appInvest import app, db
 from flask import render_template, url_for, request, redirect
 from flask_login import current_user, login_required, login_user, logout_user
 
+from appInvest.stringMenager import toFloat
 from appInvest.forms import InvestorForm, ImobiliarioForm
 from appInvest.models import Investor, Imobiliario
 
@@ -33,6 +34,7 @@ def login():
 @login_required
 def investmentForm():
     form = ImobiliarioForm()
+    print(form)
     if form.validate_on_submit():
         form.save()
         return redirect(url_for("perfil"))
@@ -44,6 +46,7 @@ def perfil():
     resultado = None
     resultado_lucro = None
     investimento_id = None
+    valor_cota = None
 
     if request.method=='POST':
         acao = request.form.get("acao")
@@ -52,18 +55,19 @@ def perfil():
         investimento = Imobiliario.query.get(investimento_id)
 
         if acao == "previsao":
-            previsaoCota = float(request.form.get("previsaoCota"))
+            previsaoCota = toFloat(request.form.get("previsaoCota"))
             resultado = round( previsaoCota * investimento.quantidades_cotas, 2)
 
         elif acao == "lucro":
-            valor_cota = float(request.form.get("lucro"))
+            valor_cota = toFloat(request.form.get("lucro"))
             resultado_lucro= round((valor_cota * investimento.quantidades_cotas) - investimento.invested_value, 2)
 
     context = {
         "investidor": current_user,
         "resultado": resultado,
         "investimento_calculado_id": investimento_id,
-        "resultado_lucro": resultado_lucro
+        "resultado_lucro": resultado_lucro,
+        "valor_cota": valor_cota
     }
 
     return render_template('perfil.html', context=context)
