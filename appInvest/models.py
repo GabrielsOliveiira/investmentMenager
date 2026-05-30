@@ -15,8 +15,6 @@ class Imobiliario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     invested_value = db.Column(db.Float, nullable=False)
-    dividend_received = db.Column(db.Float, default=0)
-    current_value = db.Column(db.Float, nullable=False)
     quantidades_cotas = db.Column(db.Float, nullable=False)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     investors_id = db.Column(db.Integer, db.ForeignKey("investor.id"), nullable=False)

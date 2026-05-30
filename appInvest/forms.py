@@ -24,8 +24,6 @@ class InvestorForm(FlaskForm):
 class ImobiliarioForm(FlaskForm):
     name = StringField('Nome', validators=[DataRequired()])
     invested_value = FloatField('Valor Investido', validators=[DataRequired()])
-    dividend_received = FloatField('Dividendos Recebidos', default=0)
-    current_value = FloatField('Valor Atual', validators=[DataRequired()])
     quantidades_cotas = FloatField('Quantidade de Cotas', validators=[DataRequired()])
     btnSubmit = SubmitField('Enviar')
 
@@ -33,8 +31,6 @@ class ImobiliarioForm(FlaskForm):
         investimento = Imobiliario(
             name=self.name.data,
             invested_value=self.invested_value.data,
-            dividend_received=self.dividend_received.data,
-            current_value=self.current_value.data,
             quantidades_cotas=self.quantidades_cotas.data,
             investors_id=current_user.id
         )

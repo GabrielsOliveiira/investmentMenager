@@ -41,20 +41,57 @@ def investmentForm():
 @app.route("/perfil/", methods=['GET', 'POST'])
 @login_required
 def perfil():
-    investimento_id = request.form.get("investimento_id")
-    previsaoCota = request.form.get("previsaoCota")
-
     resultado = None
+    resultado_lucro = None
+    investimento_id = None
 
-    if investimento_id and previsaoCota:
+    if request.method=='POST':
+        acao = request.form.get("acao")
+        investimento_id = request.form.get("investimento_id")
+
         investimento = Imobiliario.query.get(investimento_id)
 
-        previsaoCota = float(previsaoCota)
+        if acao == "previsao":
+            previsaoCota = float(request.form.get("previsaoCota"))
+            resultado = round( previsaoCota * investimento.quantidades_cotas, 2)
 
-        resultado = round( previsaoCota * investimento.quantidades_cotas, 2)
-        
-    return render_template('perfil.html', investidor=current_user, resultado=resultado,  investimento_calculado_id=int(investimento_id))
+        elif acao == "lucro":
+            valor_cota = float(request.form.get("lucro"))
+            resultado_lucro= round((valor_cota * investimento.quantidades_cotas) - investimento.invested_value, 2)
 
+    context = {
+        "investidor": current_user,
+        "resultado": resultado,
+        "investimento_calculado_id": investimento_id,
+        "resultado_lucro": resultado_lucro
+    }
+
+    return render_template('perfil.html', context=context)
+
+
+@app.route("/perfil/adicionar_cota/<int:id>", methods=['GET', 'POST'])
+@login_required
+def addCota(id):
+    investiment = Imobiliario.query.get_or_404(id)
+
+    if investiment.investors_id != current_user.id:
+        return "Acesso negado", 403
+
+    if request.method == "POST":
+        valor = request.form.get("invested_value")
+        cotas = request.form.get("quantidades_cotas")
+        print(valor, cotas)
+
+        if valor:
+            investiment.invested_value += float(valor)
+        if cotas:
+            investiment.quantidades_cotas += int(cotas)
+
+        db.session.commit()
+
+        return redirect(url_for("perfil"))
+
+    return render_template('adicionarCota.html')
 
 @app.route("/logout/")
 @login_required

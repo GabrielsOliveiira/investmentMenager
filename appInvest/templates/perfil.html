@@ -6,23 +6,37 @@
     <title>perfil</title>
 </head>
 <body>
-    <h1>{{ investidor.name }}</h1>
+    <h1>{{ context.investidor.name }}</h1>
     <ul>
-    {% for investimento in investidor.investimentos %}
+    {% for investimento in context.investidor.investimentos %}
         <li>{{ investimento.name }}<br/>
             investido: {{ investimento.invested_value }}<br/>
             Cotas: {{ investimento.quantidades_cotas|int }}<br/>
-            Valor por cota: {{ investimento.invested_value/investimento.quantidades_cotas|int }}</br>
-            Cotas do próximo mês: 
+            Valor por cota: {{ (investimento.invested_value/investimento.quantidades_cotas|int) | round(2) }}
             <form action="" method="post">
+            Cotas do próximo mês: 
+                <input type="hidden" name="acao" value="previsao">
                 <input type="hidden" name="investimento_id" value="{{ investimento.id }}">
                 <input type="text" name="previsaoCota">
                 <button type="submit">Calcular</button>
             </form>
 
-            {% if resultado and investimento_calculado_id == investimento.id %}
-            Valor a receber: {{ resultado }}
+            {% if context.resultado and context.investimento_calculado_id|int == investimento.id %}
+            Lucro: {{ context.resultado }}<br/>
             {% endif %}
+
+            <form action="" method="post">
+                <input type="hidden" name="acao" value="lucro">
+                <input type="hidden" name="investimento_id" value="{{ investimento.id }}">
+                Valor atual da cota: <input type="text" name="lucro">
+                <button type="submit">Calcular lucro/perda</button><br/>
+            </form>
+
+            {% if context.resultado_lucro %}
+            Valor a receber: {{ context.resultado_lucro }}<br/>
+            {% endif %}
+
+            <a href="{{ url_for('addCota', id=investimento.id) }}"><button>Adicionar cotas</button></a>
 
         </li>
         <form action="{{ url_for('deleteInvestment', id=investimento.id) }}">
