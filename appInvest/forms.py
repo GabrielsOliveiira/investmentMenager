@@ -12,6 +12,13 @@ class InvestorForm(FlaskForm):
     btnSubmit = SubmitField('Enviar')
 
     def save(self):
+
+        existInvestor = Investor.query.filter_by(email=self.email.data).first()
+
+        if existInvestor:
+            return "Email já cadastrado"
+
+
         investor = Investor(
             name = self.name.data,
             email = self.email.data,

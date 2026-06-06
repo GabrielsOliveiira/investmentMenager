@@ -22,6 +22,10 @@
             {{ form.email.label() }}
             {{ form.email() }}
 
+            {% if context.emailUsado %}
+            <h7>Email já está sendo ultilizado</h7>
+            {% endif %}
+
             {{ form.btnSubmit() }}
         </form>
         <a href="{{url_for('homepage')}}">Voltar</a>

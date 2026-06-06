@@ -12,12 +12,19 @@ def homepage():
 
 @app.route("/cadastrar/", methods=['GET', 'POST'])
 def invertorForm():
+    emailUsado = False
     form = InvestorForm()
     if form.validate_on_submit():
-        form.save()
-        return redirect(url_for("homepage"))
+        retorno = form.save()
+        if retorno != "Email já cadastrado":
+            return redirect(url_for("homepage"))
+        emailUsado = True
 
-    return render_template('investorForm.html', form=form)
+    context = {
+        "emailUsado": emailUsado
+    }
+
+    return render_template('investorForm.html', form=form, context=context)
 
 @app.route("/login/")
 def login():
@@ -34,7 +41,6 @@ def login():
 @login_required
 def investmentForm():
     form = ImobiliarioForm()
-    print(form)
     if form.validate_on_submit():
         form.save()
         return redirect(url_for("perfil"))
