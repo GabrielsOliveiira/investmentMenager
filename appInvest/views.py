@@ -5,6 +5,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from appInvest.stringMenager import toFloat
 from appInvest.forms import InvestorForm, ImobiliarioForm
 from appInvest.models import Investor, Imobiliario
+from werkzeug.datastructures import MultiDict
 
 @app.route("/")
 def homepage():
@@ -40,7 +41,13 @@ def login():
 @app.route("/cadastrar investimento/", methods=['GET', 'POST'])
 @login_required
 def investmentForm():
-    form = ImobiliarioForm()
+    if request.method == "POST":
+        data = MultiDict(request.form)
+        data["invested_value"] = str(toFloat(data.get("invested_value", "")))
+        form = ImobiliarioForm(data)
+    else:
+        form = ImobiliarioForm()
+        
     if form.validate_on_submit():
         form.save()
         return redirect(url_for("perfil"))
