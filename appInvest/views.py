@@ -77,11 +77,15 @@ def perfil():
 
     context = {
         "investidor": current_user,
+        "carteira": current_user.carteira,
         "resultado": resultado,
         "investimento_calculado_id": investimento_id,
         "resultado_lucro": resultado_lucro,
         "valor_cota": valor_cota
     }
+
+    print(type(current_user.carteira), "---"*100)
+    print(current_user.carteira)
 
     return render_template('perfil.html', context=context)
 
@@ -89,10 +93,10 @@ def perfil():
 @app.route("/perfil/adicionar_cota/<int:id>", methods=['GET', 'POST'])
 @login_required
 def addCota(id):
-    investiment = Imobiliario.query.get_or_404(id)
+    investment = Imobiliario.query.get_or_404(id)
 
-    if investiment.investors_id != current_user.id:
-        return "Acesso negado", 403
+    if investment.carteira_id != current_user.carteira.id:
+        return "Não autorizado", 403
 
     if request.method == "POST":
         valor = request.form.get("invested_value")
@@ -100,9 +104,9 @@ def addCota(id):
         print(valor, cotas)
 
         if valor:
-            investiment.invested_value += float(valor)
+            investment.invested_value += float(valor)
         if cotas:
-            investiment.quantidades_cotas += int(cotas)
+            investment.quantidades_cotas += int(cotas)
 
         db.session.commit()
 
@@ -121,7 +125,7 @@ def logout():
 def deleteInvestment(id):
     investment = Imobiliario.query.get_or_404(id)
 
-    if investment.investors_id != current_user.id:
+    if investment.carteira_id != current_user.carteira.id:
         return "Não autorizado", 403
 
     db.session.delete(investment)

@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, Email
 from flask_login import current_user
 
 from appInvest import db
-from appInvest.models import Investor, Imobiliario
+from appInvest.models import Investor, Imobiliario, Carteira
 
 class InvestorForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
@@ -27,6 +27,11 @@ class InvestorForm(FlaskForm):
         db.session.add(investor)
         db.session.commit()
 
+        nova_carteira = Carteira(investor_id=investor.id)
+
+        db.session.add(nova_carteira)
+        db.session.commit()
+
 
 class ImobiliarioForm(FlaskForm):
     name = StringField('Nome', validators=[DataRequired()])
@@ -39,7 +44,7 @@ class ImobiliarioForm(FlaskForm):
             name=self.name.data,
             invested_value=self.invested_value.data,
             quantidades_cotas=self.quantidades_cotas.data,
-            investors_id=current_user.id
+            carteira_id=current_user.carteira.id
         )
 
         db.session.add(investimento)
