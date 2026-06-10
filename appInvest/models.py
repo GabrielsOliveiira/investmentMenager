@@ -19,10 +19,10 @@ class Carteira(db.Model):
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     investor = db.relationship("Investor", back_populates="carteira")
     imobiliario = db.relationship("Imobiliario", back_populates="carteira", lazy=True)
+    renda_fixa = db.relationship("RendaFixa", back_populates="carteira", lazy=True)
 
 class Imobiliario(db.Model):
     __tablename__ = "imobiliario"
-
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -31,6 +31,18 @@ class Imobiliario(db.Model):
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     carteira_id = db.Column(db.Integer, db.ForeignKey("carteira.id"), nullable=False)
     carteira = db.relationship("Carteira", back_populates="imobiliario")
+
+class RendaFixa(db.Model):
+    __tablename__ = "renda_fixa"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    invested_value = db.Column(db.Float, nullable=False)
+    interest_rate = db.Column(db.Float, nullable=False)
+    maturity_date = db.Column(db.Date, nullable=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    carteira_id = db.Column(db.Integer, db.ForeignKey("carteira.id"), nullable=False)
+    carteira = db.relationship("Carteira", back_populates="renda_fixa")
 
 # class Acao(db.Model):
 #     __tablename__ = "acao"
@@ -51,24 +63,6 @@ class Imobiliario(db.Model):
 #         nullable=False
 #     )
 
-# class RendaFixa(db.Model):
-#     __tablename__ = "renda_fixa"
-
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(100), nullable=False)
-#     invested_value = db.Column(db.Float, nullable=False)
-#     interest_rate = db.Column(db.Float, nullable=False)
-#     maturity_date = db.Column(db.Date, nullable=False)
-#     created_at = db.Column(
-#         db.DateTime,
-#         default=lambda: datetime.now(timezone.utc)
-#     )
-
-#     investors_id = db.Column(
-#         db.Integer,
-#         db.ForeignKey("carteira.id"),
-#         nullable=False
-#     ) 
 
 # class FundoInvestimento(db.Model):
 

@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, Email
 from flask_login import current_user
 
 from appInvest import db
-from appInvest.models import Investor, Imobiliario, Carteira
+from appInvest.models import Investor, Imobiliario, RendaFixa, Carteira
 
 class InvestorForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
@@ -40,12 +40,30 @@ class ImobiliarioForm(FlaskForm):
     btnSubmit = SubmitField('Enviar')
 
     def save(self):
-        investimento = Imobiliario(
-            name=self.name.data,
-            invested_value=self.invested_value.data,
-            quantidades_cotas=self.quantidades_cotas.data,
-            carteira_id=current_user.carteira.id
+        imobiliario = Imobiliario(
+            name = self.name.data,
+            invested_value = self.invested_value.data,
+            quantidades_cotas = self.quantidades_cotas.data,
+            carteira_id = current_user.carteira.id
         )
 
-        db.session.add(investimento)
+        db.session.add(imobiliario)
+        db.session.commit()
+
+class renda_fixaForm(FlaskForm):
+    name = StringField('Nome', validators=[DataRequired()])
+    invested_value = FloatField('Valor investido', validators=[DataRequired()])
+    interest_rate = FloatField('Taxa', validators=[DataRequired()])
+    maturity_date = DateField('Data de vencimento', format='&Y=%m-%d', validators=[DataRequired()])
+    btnSubmit = SubmitField('Enviar')
+
+    def save(self):
+        renda_fixa = RendaFixa(
+            name = self.name.data,
+            invested_value = self.invested_value.data,
+            interest_rate = self.interest_rate.data,
+            maturity_date = self.maturity_date.data
+        )
+
+        db.session.add(renda_fixa)
         db.session.commit()

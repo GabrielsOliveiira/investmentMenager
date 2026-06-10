@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>{{ context.investidor.name }}</h1>
-    <ul>
+    <ul> 
     {% for investimento in context.carteira.imobiliario %}
         <li>{{ investimento.name }}<br/>
             investido: {{ investimento.invested_value }}<br/>

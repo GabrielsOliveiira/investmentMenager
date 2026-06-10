@@ -3,7 +3,7 @@ from flask import render_template, url_for, request, redirect
 from flask_login import current_user, login_required, login_user, logout_user
 
 from appInvest.stringMenager import toFloat
-from appInvest.forms import InvestorForm, ImobiliarioForm
+from appInvest.forms import InvestorForm, ImobiliarioForm, renda_fixaForm
 from appInvest.models import Investor, Imobiliario
 from werkzeug.datastructures import MultiDict
 
@@ -38,9 +38,9 @@ def login():
     
     return render_template('login.html', naoEncontrado=email)
 
-@app.route("/cadastrar investimento/", methods=['GET', 'POST'])
+@app.route("/investimento_imobiliario/", methods=['GET', 'POST'])
 @login_required
-def investmentForm():
+def addImobiliario():
     if request.method == "POST":
         data = MultiDict(request.form)
         data["invested_value"] = str(toFloat(data.get("invested_value", "")))
@@ -52,6 +52,12 @@ def investmentForm():
         form.save()
         return redirect(url_for("perfil"))
     return render_template('imobiliarioForm.html', form=form)
+
+@app.route("/investimento_renda_fixa", methods=['GET', 'POST'])
+@login_required
+def addRenda_fixa():
+    form = renda_fixaForm()
+    return render_template('renda_fixaForm.html', form=form)    
 
 @app.route("/perfil/escolher_investimento")
 @login_required
@@ -89,9 +95,6 @@ def perfil():
         "valor_cota": valor_cota
     }
 
-    print(type(current_user.carteira), "---"*100)
-    print(current_user.carteira)
-
     return render_template('perfil.html', context=context)
 
 
@@ -106,7 +109,6 @@ def addCota(id):
     if request.method == "POST":
         valor = request.form.get("invested_value")
         cotas = request.form.get("quantidades_cotas")
-        print(valor, cotas)
 
         if valor:
             investment.invested_value += float(valor)
