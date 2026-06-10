@@ -53,6 +53,11 @@ def investmentForm():
         return redirect(url_for("perfil"))
     return render_template('imobiliarioForm.html', form=form)
 
+@app.route("/perfil/escolher_investimento")
+@login_required
+def escolher_investimento():
+    return render_template("escolher_investimento.html")
+
 @app.route("/perfil/", methods=['GET', 'POST'])
 @login_required
 def perfil():
