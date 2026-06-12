@@ -57,7 +57,14 @@ def addImobiliario():
 @login_required
 def addRenda_fixa():
     form = renda_fixaForm()
-    print(form.invested_value.data)
+
+    print(form.maturity_date.data)
+
+    if form.validate_on_submit():
+        form.save()
+        return redirect(url_for("perfil"))
+
+
     return render_template('renda_fixaForm.html', form=form)    
 
 @app.route("/perfil/escolher_investimento")

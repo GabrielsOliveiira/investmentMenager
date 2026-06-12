@@ -1,5 +1,5 @@
 from flask_wtf  import FlaskForm
-from wtforms import StringField, DateField, SubmitField, FloatField, IntegerField
+from wtforms.fields import StringField, DateField, SubmitField, FloatField, IntegerField
 from wtforms.validators import DataRequired, Email
 from flask_login import current_user
 
@@ -54,7 +54,7 @@ class renda_fixaForm(FlaskForm):
     name = StringField('Nome', validators=[DataRequired()])
     invested_value = FloatField('Valor investido', validators=[DataRequired()])
     interest_rate = FloatField('Taxa', validators=[DataRequired()])
-    maturity_date = DateField('Data de vencimento', format='&Y=%m-%d', validators=[DataRequired()])
+    maturity_date = DateField('Data de vencimento', format='%Y-%m-%d', validators=[DataRequired()])
     btnSubmit = SubmitField('Enviar')
 
     def save(self):
@@ -62,7 +62,8 @@ class renda_fixaForm(FlaskForm):
             name = self.name.data,
             invested_value = self.invested_value.data,
             interest_rate = self.interest_rate.data,
-            maturity_date = self.maturity_date.data
+            maturity_date = self.maturity_date.data,
+            carteira_id = current_user.carteira.id
         )
 
         db.session.add(renda_fixa)
