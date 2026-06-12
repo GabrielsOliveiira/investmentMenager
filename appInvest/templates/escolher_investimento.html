@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escolher investimento</title>
-</head>
-<body>
-    <a href="{{url_for('addImobiliario')}}">Imobiliario</a>
-    <a href="{{url_for('addRenda_fixa')}}">Renda fixa</a>
-    <p></p>
-    <a href="{{url_for('perfil')}}">Voltar</a>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{{url_for('addImobiliario')}}">Imobiliario</a>
+<a href="{{url_for('addRenda_fixa')}}">Renda fixa</a>
+<p></p>
+<a href="{{url_for('perfil')}}">Voltar</a>
+{% endblock %}

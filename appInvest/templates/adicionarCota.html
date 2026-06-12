@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar cota</title>
-</head>
-<body>
-    <form action="" method="post">
-        <p>Valor investido</p>
-        <input type="number" name="invested_value">
-        <p>Quantidade de cotas</p>
-        <input type="number" name="quantidades_cotas">
-        <button type="submit">Confirmar</button>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="" method="post">
+    <p>Valor investido</p>
+    <input type="number" name="invested_value">
+    <p>Quantidade de cotas</p>
+    <input type="number" name="quantidades_cotas">
+    <button type="submit">Confirmar</button>
+</form>
+{% endblock %}

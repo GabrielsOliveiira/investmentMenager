@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha página</title>
-</head>
-<body>
-    <h1>Bem vindo!</h1>
-    <h4>Faça seu login e inicie sua jornada de invesstimentos</h4>
-    <a href="{{url_for('invertorForm')}}">Cadastrar</a>
-    <a href="{{url_for('login')}}">Login</a>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Bem vindo!</h1>
+<h4>Faça seu login e inicie sua jornada de invesstimentos</h4>
+<a href="{{url_for('invertorForm')}}">Cadastrar</a>
+<a href="{{url_for('login')}}">Login</a>
+{% endblock %}

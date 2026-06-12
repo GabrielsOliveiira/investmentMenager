@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>perfil</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
     <h1>{{ context.investidor.name }}</h1>
     <ul> 
     {% for investimento in context.carteira.imobiliario %}
@@ -46,5 +41,4 @@
     </ul>
     <a href="{{url_for('logout')}}">Deslogar</a>
     <a href="{{url_for('escolher_investimento')}}">Adicionar investimento</a>
-</body>
-</html>
+{% endblock %}
