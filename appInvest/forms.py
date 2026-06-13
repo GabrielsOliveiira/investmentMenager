@@ -32,7 +32,6 @@ class InvestorForm(FlaskForm):
         db.session.add(nova_carteira)
         db.session.commit()
 
-
 class ImobiliarioForm(FlaskForm):
     name = StringField('Nome', validators=[DataRequired()])
     invested_value = FloatField('Valor Investido', validators=[DataRequired()])

@@ -3,44 +3,63 @@
 {% block titulo %}Perfil{% endblock %}
 
 {% block content %}
-    <h1>{{ context.investidor.name }}</h1>
-    <ul> 
-    {% for investimento in context.carteira.imobiliario %}
-        <li>{{ investimento.name }}<br/>
-            investido: {{ investimento.invested_value }}<br/>
-            Cotas: {{ investimento.quantidades_cotas|int }}<br/>
-            Valor por cota: {{ (investimento.invested_value/investimento.quantidades_cotas|int) | round(2) }}
-            <form action="" method="post">
-            Cotas do próximo mês: 
-                <input type="hidden" name="acao" value="previsao">
-                <input type="hidden" name="investimento_id" value="{{ investimento.id }}">
-                <input type="text" name="previsaoCota">
-                <button type="submit">Calcular</button>
-            </form>
+<h1>{{ context.investidor.name }}</h1>
 
-            {% if context.resultado and context.investimento_calculado_id|int == investimento.id %}
-            Lucro: {{ context.resultado }}<br/>
-            {% endif %}
+<ul> 
+    {% if context.carteira.imobiliario %}
+    <h4>Investimento imobiliário</h4>
+        {% for investimento in context.carteira.imobiliario %}
+            <li>{{ investimento.name }}<br/>
+                investido: {{ investimento.invested_value }}<br/>
+                Cotas: {{ investimento.quantidades_cotas|int }}<br/>
+                Valor por cota: {{ (investimento.invested_value/investimento.quantidades_cotas|int) | round(2) }}
+                <form action="" method="post">
+                Cotas do próximo mês: 
+                    <input type="hidden" name="acao" value="previsao">
+                    <input type="hidden" name="investimento_id" value="{{ investimento.id }}">
+                    <input type="text" name="previsaoCota">
+                    <button type="submit">Calcular</button>
+                </form>
 
-            <form action="" method="post">
-                <input type="hidden" name="acao" value="lucro">
-                <input type="hidden" name="investimento_id" value="{{ investimento.id }}">
-                Valor atual da cota: <input type="text" name="lucro">
-                <button type="submit">Calcular lucro/perda</button><br/>
-            </form>
+                {% if context.resultado and context.investimento_calculado_id|int == investimento.id %}
+                Lucro: {{ context.resultado }}<br/>
+                {% endif %}
 
-            {% if context.resultado_lucro and context.valor_cota %}
-            Valor a receber: {{ context.resultado_lucro }}<br/>
-            {% endif %}
+                <form action="" method="post">
+                    <input type="hidden" name="acao" value="lucro">
+                    <input type="hidden" name="investimento_id" value="{{ investimento.id }}">
+                    Valor atual da cota: <input type="text" name="lucro">
+                    <button type="submit">Calcular lucro/perda</button><br/>
+                </form>
 
-            <a href="{{ url_for('addCota', id=investimento.id) }}"><button>Adicionar cotas</button></a>
+                {% if context.resultado_lucro and context.valor_cota %}
+                Valor a receber: {{ context.resultado_lucro }}<br/>
+                {% endif %}
 
-        </li>
-        <form action="{{ url_for('deleteInvestment', id=investimento.id) }}">
-            <button type="submit">Deletar</button>
-        </form>
-    {% endfor %}
-    </ul>
-    <a href="{{url_for('logout')}}">Deslogar</a>
-    <a href="{{url_for('escolher_investimento')}}">Adicionar investimento</a>
+                <a href="{{ url_for('addCota', id=investimento.id) }}"><button>Adicionar cotas</button></a>
+                
+                <form action="{{ url_for('deleteInvestment', id=investimento.id) }}">
+                    <button type="submit">Deletar</button>
+                </form>
+            </li>
+        {% endfor %}
+    {% endif %}
+</ul>
+
+<ul>
+    {% if context.carteira.renda_fixa %}
+    <h4>Renda fixa</h4>
+        {% for investimento in context.carteira.renda_fixa %}
+            <li>{{ investimento.name }}<br/>
+                Valor investido: {{ investimento.invested_value }}<br/>
+                Porcentagem de lucro: {{ investimento.interest_rate }}<br/>
+                Data final: {{ investimento.maturity_date.strftime('%d/%m/%Y') }}
+            </li>
+        {% endfor %}
+    {% endif %}
+</ul>
+
+<a href="{{url_for('logout')}}">Deslogar</a>
+<a href="{{url_for('escolher_investimento')}}">Adicionar investimento</a>
+
 {% endblock %}

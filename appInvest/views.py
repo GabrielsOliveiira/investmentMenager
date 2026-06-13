@@ -38,6 +38,8 @@ def login():
     
     return render_template('login.html', naoEncontrado=email)
 
+# Tipo de investimentos
+
 @app.route("/investimento_imobiliario/", methods=['GET', 'POST'])
 @login_required
 def addImobiliario():
@@ -71,6 +73,8 @@ def addRenda_fixa():
 @login_required
 def escolher_investimento():
     return render_template("escolher_investimento.html")
+
+# Perfil
 
 @app.route("/perfil/", methods=['GET', 'POST'])
 @login_required
