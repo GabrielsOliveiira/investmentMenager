@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from appInvest.stringMenager import dias_restantes
 
 
 app = Flask(__name__)
@@ -25,3 +26,5 @@ def load_user(user_id):
 
 with app.app_context():
     db.create_all()
+
+app.jinja_env.globals.update(dias_restantes=dias_restantes)

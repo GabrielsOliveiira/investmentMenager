@@ -53,7 +53,9 @@
             <li>{{ investimento.name }}<br/>
                 Valor investido: {{ investimento.invested_value }}<br/>
                 Porcentagem de lucro: {{ investimento.interest_rate }}<br/>
-                Data final: {{ investimento.maturity_date.strftime('%d/%m/%Y') }}
+                Data final: {{ investimento.maturity_date.strftime('%d/%m/%Y') }}<br/>
+                Dias restantes: {{ dias_restantes(investimento.maturity_date) }}
+
             </li>
         {% endfor %}
     {% endif %}

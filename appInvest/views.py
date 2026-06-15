@@ -2,7 +2,7 @@ from appInvest import app, db
 from flask import render_template, url_for, request, redirect
 from flask_login import current_user, login_required, login_user, logout_user
 
-from appInvest.stringMenager import toFloat
+from appInvest.stringMenager import toFloat, dias_restantes
 from appInvest.forms import InvestorForm, ImobiliarioForm, renda_fixaForm
 from appInvest.models import Investor, Imobiliario
 from werkzeug.datastructures import MultiDict
@@ -97,6 +97,8 @@ def perfil():
         elif acao == "lucro":
             valor_cota = toFloat(request.form.get("lucro"))
             resultado_lucro= round((valor_cota * investimento.quantidades_cotas) - investimento.invested_value, 2)
+
+    print(request.form.get("renda_fixaFinalDate"))
 
     context = {
         "investidor": current_user,
