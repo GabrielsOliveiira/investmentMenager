@@ -3,13 +3,28 @@
 {% block titulo %}Entre na sua conta{% endblock %}
 
 {% block content %}
-<form action="">
-    <input type="text" name="email">
-    <button type="submit">Entrar</button>
-</form>
-<a href="{{url_for('homepage')}}">Voltar</a>
-{% if naoEncontrado %}
-    <h4>Nenhuma usuário foi encontrado</h4>
-{% endif %}
+<div class="login-container">
+    <div class="login-card">
+        <h3 class="login-title">Entrar na sua conta</h3>
 
+        <form action="" method="post" class="login-form">
+
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="text" name="email" class="form-input" placeholder="Digite seu email">
+            </div>
+
+            <button type="submit" class="submit-btn">Entrar</button>
+
+        </form>
+
+        {% if naoEncontrado %}
+            <p class="error-message">Nenhum usuário foi encontrado</p>
+        {% endif %}
+
+        <a href="{{url_for('homepage')}}" class="back-link">Voltar</a>
+
+    </div>
+</div>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styleLogin.css') }}">
 {% endblock %}

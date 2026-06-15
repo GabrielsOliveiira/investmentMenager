@@ -3,8 +3,11 @@
 {% block titulo %}Escolha seu investimento{% endblock %}
 
 {% block content %}
-<a href="{{url_for('addImobiliario')}}">Imobiliario</a>
-<a href="{{url_for('addRenda_fixa')}}">Renda fixa</a>
-<p></p>
-<a href="{{url_for('perfil')}}">Voltar</a>
+<div class="investimentos-container"></div>
+    <a class="invest-btn" href="{{url_for('addImobiliario')}}">Imobiliario</a>
+    <a class="invest-btn" href="{{url_for('addRenda_fixa')}}">Renda fixa</a>
+    <p></p>
+    <a class="voltar-btn" href="{{url_for('perfil')}}">Voltar</a>
+</div>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styleEscolherInvestimento.css') }}">
 {% endblock %}

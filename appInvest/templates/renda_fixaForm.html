@@ -3,24 +3,29 @@
 {% block titulo %}Adicionar investimento{% endblock %}
 
 {% block content %}
-<form action="" method="post" class="row">
-    {{ form.csrf_token }}
+<div class="container">
 
-    {{ form.name.label }}
-    {{ form.name() }}
+    <h3>Adicione um investimento</h3>
 
-    {{ form.invested_value.label }}
-    {{ form.invested_value() }}
+    <form action="" method="post" class="row">
+        {{ form.csrf_token }}
 
-    {{ form.interest_rate.label }}
-    {{ form.interest_rate() }}
+        {{ form.name.label }}
+        {{ form.name() }}
 
-    {{ form.maturity_date.label }}
-    {{ form.maturity_date() }}
+        {{ form.invested_value.label }}
+        {{ form.invested_value() }}
 
-    {{ form.btnSubmit() }}
-</form>
+        {{ form.interest_rate.label }}
+        {{ form.interest_rate() }}
 
-<a href="{{url_for('perfil')}}">Voltar</a>
-            
+        {{ form.maturity_date.label }}
+        {{ form.maturity_date() }}
+
+        {{ form.btnSubmit() }}
+    </form>
+
+    <a href="{{url_for('perfil')}}">Voltar</a>
+</div>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styleAddInvestimentos.css') }}">
 {% endblock %}

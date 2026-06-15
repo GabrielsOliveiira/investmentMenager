@@ -3,8 +3,14 @@
 {% block titulo %}Bem vindo!{% endblock %}
 
 {% block content %}
-<h1>Bem vindo!</h1>
-<h4>Faça seu login e inicie sua jornada de invesstimentos</h4>
-<a href="{{url_for('invertorForm')}}">Cadastrar</a>
-<a href="{{url_for('login')}}">Login</a>
+<div class="welcome-container">
+    <div class="welcome-card">
+    <h1 class="welcome-title">Bem vindo!</h1>
+    <h4 class="welcome-subtitle">Faça seu login e inicie sua jornada de invesstimentos</h4>
+    <div  class="button-group">
+    <a href="{{url_for('invertorForm')}}" class="btn btn-primary">Cadastrar</a>
+    <a href="{{url_for('login')}}" class="btn btn-secondary">Login</a>
+    </div>
+</div>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styleIndex.css') }}">
 {% endblock %}

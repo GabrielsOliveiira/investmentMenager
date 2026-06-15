@@ -66,7 +66,11 @@
     {% endif %}
 </ul>
 
-<a href="{{url_for('logout')}}">Deslogar</a>
-<a href="{{url_for('escolher_investimento')}}">Adicionar investimento</a>
+<div class="links-finais">
+    <a href="{{url_for('logout')}}">Deslogar</a>
+    <a href="{{url_for('escolher_investimento')}}">Adicionar investimento</a>
+</div>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfil.css') }}">
 
 {% endblock %}
