@@ -2,9 +2,9 @@ from appInvest import app, db
 from flask import render_template, url_for, request, redirect
 from flask_login import current_user, login_required, login_user, logout_user
 
-from appInvest.stringMenager import toFloat, dias_restantes
+from appInvest.stringMenager import toFloat
 from appInvest.forms import InvestorForm, ImobiliarioForm, renda_fixaForm
-from appInvest.models import Investor, Imobiliario
+from appInvest.models import Investor, Imobiliario, RendaFixa
 from werkzeug.datastructures import MultiDict
 
 @app.route("/")
@@ -98,8 +98,6 @@ def perfil():
             valor_cota = toFloat(request.form.get("lucro"))
             resultado_lucro= round((valor_cota * investimento.quantidades_cotas) - investimento.invested_value, 2)
 
-    print(request.form.get("renda_fixaFinalDate"))
-
     context = {
         "investidor": current_user,
         "carteira": current_user.carteira,
@@ -111,6 +109,7 @@ def perfil():
 
     return render_template('perfil.html', context=context)
 
+# Funções
 
 @app.route("/perfil/adicionar_cota/<int:id>", methods=['GET', 'POST'])
 @login_required
@@ -141,10 +140,14 @@ def logout():
     logout_user()
     return redirect(url_for("homepage"))
 
-@app.route("/deleteInvestment/<int:id>")
+@app.route("/deleteInvestment/<int:id>/<string:type>")
 @login_required
-def deleteInvestment(id):
-    investment = Imobiliario.query.get_or_404(id)
+def deleteInvestment(id, type):
+    if type == 'imobiliario':
+        investment = Imobiliario.query.get_or_404(id)
+
+    if type == 'renda_fixa':
+        investment = RendaFixa.query.get_or_404(id)
 
     if investment.carteira_id != current_user.carteira.id:
         return "Não autorizado", 403
