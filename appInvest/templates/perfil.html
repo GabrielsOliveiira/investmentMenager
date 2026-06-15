@@ -54,7 +54,8 @@
                 Valor investido: {{ investimento.invested_value }}<br/>
                 Porcentagem de lucro: {{ investimento.interest_rate }}<br/>
                 Data final: {{ investimento.maturity_date.strftime('%d/%m/%Y') }}<br/>
-                Dias restantes: {{ dias_restantes(investimento.maturity_date) }}
+                Dias restantes: {{ dias_restantes(investimento.maturity_date) }} <br/>
+                Projeção de ganhos: {{ projecaoGanhos(investimento.invested_value, investimento.interest_rate, dias_restantes(investimento.maturity_date)) }}
 
                 <form action="{{ url_for('deleteInvestment', id=investimento.id, type='renda_fixa') }}">
                     <button type="submit">Deletar</button>

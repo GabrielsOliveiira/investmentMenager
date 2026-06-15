@@ -14,3 +14,7 @@ def toFloat(text:str) -> float:
 
 def dias_restantes(data):
     return (data - date.today()).days
+
+def projecaoGanhos(valor, taxaM, dias):
+    taxaD = (1 + taxaM/100) ** (1/30) - 1
+    return round(valor * ((1 + taxaD) ** dias - 1), 2)
