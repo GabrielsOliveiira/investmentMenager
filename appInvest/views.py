@@ -3,7 +3,7 @@ from flask import render_template, url_for, request, redirect
 from flask_login import current_user, login_required, login_user, logout_user
 
 from appInvest.stringMenager import toFloat
-from appInvest.forms import InvestorForm, ImobiliarioForm, renda_fixaForm
+from appInvest.forms import InvestorForm, ImobiliarioForm, Renda_fixaForm, Acao
 from appInvest.models import Investor, Imobiliario, RendaFixa
 from werkzeug.datastructures import MultiDict
 
@@ -58,7 +58,7 @@ def addImobiliario():
 @app.route("/investimento_renda_fixa", methods=['GET', 'POST'])
 @login_required
 def addRenda_fixa():
-    form = renda_fixaForm()
+    form = Renda_fixaForm()
 
     print(form.maturity_date.data)
 

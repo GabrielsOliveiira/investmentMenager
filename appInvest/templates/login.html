@@ -3,11 +3,12 @@
 {% block titulo %}Entre na sua conta{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styleLogin.css') }}">
 <div class="login-container">
     <div class="login-card">
         <h3 class="login-title">Entrar na sua conta</h3>
 
-        <form action="" method="post" class="login-form">
+        <form action="" method="GET" class="login-form">
 
             <div class="form-group">
                 <label class="form-label">Email</label>
@@ -26,5 +27,4 @@
 
     </div>
 </div>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/styleLogin.css') }}">
 {% endblock %}

@@ -3,6 +3,7 @@
 {% block titulo %}Adicionar cota{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styleAdicionarCota.css') }}">
 <div class="form-page">
     <div class="form-container">
         <form action="" method="post">
@@ -18,5 +19,4 @@
         </form>
     </div>
 </div>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/styleAdicionarCota.css') }}">
 {% endblock %}

@@ -3,6 +3,7 @@
 {% block titulo %}Perfil{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfil.css') }}">
 <h1>{{ context.investidor.name }}</h1>
 
 <ul> 
@@ -71,6 +72,5 @@
     <a href="{{url_for('escolher_investimento')}}">Adicionar investimento</a>
 </div>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfil.css') }}">
 
 {% endblock %}

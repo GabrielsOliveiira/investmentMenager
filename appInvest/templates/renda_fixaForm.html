@@ -3,6 +3,7 @@
 {% block titulo %}Adicionar investimento{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styleAddInvestimentos.css') }}">
 <div class="container">
 
     <h3>Adicione um investimento</h3>
@@ -27,5 +28,4 @@
 
     <a href="{{url_for('perfil')}}">Voltar</a>
 </div>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/styleAddInvestimentos.css') }}">
 {% endblock %}

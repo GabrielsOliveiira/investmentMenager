@@ -3,6 +3,7 @@
 {% block titulo %}Cadastre-se{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styleInvestorForm.css') }}">
 <div class="register-container">
     <div class="register-card">
         <h3 class="register-title">Criar conta</h3>
@@ -29,5 +30,4 @@
         <a href="{{url_for('homepage')}}" class="back-link">Voltar</a>
     </div>
 </div>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/styleInvestorForm.css') }}">
 {% endblock %}

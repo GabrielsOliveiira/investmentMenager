@@ -20,6 +20,7 @@ class Carteira(db.Model):
     investor = db.relationship("Investor", back_populates="carteira")
     imobiliario = db.relationship("Imobiliario", back_populates="carteira", lazy=True)
     renda_fixa = db.relationship("RendaFixa", back_populates="carteira", lazy=True)
+    acao = db.relationship("Acao", back_populates="carteira", lazy=True)
 
 class Imobiliario(db.Model):
     __tablename__ = "imobiliario"
@@ -44,24 +45,17 @@ class RendaFixa(db.Model):
     carteira_id = db.Column(db.Integer, db.ForeignKey("carteira.id"), nullable=False)
     carteira = db.relationship("Carteira", back_populates="renda_fixa")
 
-# class Acao(db.Model):
-#     __tablename__ = "acao"
+class Acao(db.Model):
+    __tablename__ = "acao"
 
-#     id = db.Column(db.Integer, primary_key=True)
-#     ticker = db.Column(db.String(20), nullable=False)
-#     name = db.Column(db.String(100), nullable=False)
-#     invested_value = db.Column(db.Float, nullable=False)
-#     quantity = db.Column(db.Float, nullable=False)
-#     created_at = db.Column(
-#         db.DateTime,
-#         default=lambda: datetime.now(timezone.utc)
-#     )
-
-#     investors_id = db.Column(
-#         db.Integer,
-#         db.ForeignKey("carteira.id"),
-#         nullable=False
-#     )
+    id = db.Column(db.Integer, primary_key=True)
+    ticker = db.Column(db.String(20), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    invested_value = db.Column(db.Float, nullable=False)
+    quantity = db.Column(db.Float, nullable=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    carteira_id = db.Column(db.Integer, db.ForeignKey("carteira.id"), nullable=False)
+    carteira = db.relationship("Carteira", back_populates="acao")
 
 
 # class FundoInvestimento(db.Model):

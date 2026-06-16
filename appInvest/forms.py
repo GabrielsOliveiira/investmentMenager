@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, Email
 from flask_login import current_user
 
 from appInvest import db
-from appInvest.models import Investor, Imobiliario, RendaFixa, Carteira
+from appInvest.models import Investor, Imobiliario, RendaFixa, Carteira, Acao
 
 class InvestorForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
@@ -49,7 +49,7 @@ class ImobiliarioForm(FlaskForm):
         db.session.add(imobiliario)
         db.session.commit()
 
-class renda_fixaForm(FlaskForm):
+class Renda_fixaForm(FlaskForm):
     name = StringField('Nome', validators=[DataRequired()])
     invested_value = FloatField('Valor investido', validators=[DataRequired()])
     interest_rate = FloatField('Taxa', validators=[DataRequired()])
@@ -66,4 +66,22 @@ class renda_fixaForm(FlaskForm):
         )
 
         db.session.add(renda_fixa)
+        db.session.commit()
+
+class Acao(FlaskForm):
+    ticker = StringField('Ticker', validators=[DataRequired()])
+    name = StringField('Nome', validators=[DataRequired()])
+    invested_value = FloatField('Valor investido', validators=[DataRequired()])
+    quantity = IntegerField('Quantidade', validators=[DataRequired()])
+
+    def save(self):
+        acao = Acao(
+            ticker = self.ticker.data,
+            name = self.name.data,
+            invested_value = self.invested_value.data,
+            quantity = self.quantity.data,
+            Carteira_id = current_user.carteira.id
+        )
+
+        db.session.add(acao)
         db.session.commit()
