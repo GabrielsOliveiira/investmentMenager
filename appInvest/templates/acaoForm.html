@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Adicionar cota{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styleAddInvestimentos.css') }}">
+<div class="container">
+
+    <h3>Adicione um investimento</h3>
+
+    <form action="" method="post" class="row">
+        {{ form.csrf_token }}
+
+        {{ form.ticker.label() }}
+        {{ form.ticker() }}
+
+        {{ form.name.label() }}
+        {{ form.name() }}
+
+        {{ form.invested_value.label() }}
+        {{ form.invested_value() }}
+
+        {{ form.quantity.label() }}
+        {{ form.quantity() }}
+
+        {{ form.btnSubmit() }}
+    </form>
+    
+    <a href="{{url_for('perfil')}}">Voltar</a>
+
+{% endblock %}

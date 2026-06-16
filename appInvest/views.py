@@ -3,8 +3,8 @@ from flask import render_template, url_for, request, redirect
 from flask_login import current_user, login_required, login_user, logout_user
 
 from appInvest.stringMenager import toFloat
-from appInvest.forms import InvestorForm, ImobiliarioForm, Renda_fixaForm, Acao
-from appInvest.models import Investor, Imobiliario, RendaFixa
+from appInvest.forms import InvestorForm, ImobiliarioForm, Renda_fixaForm, AcaoForm
+from appInvest.models import Investor, Imobiliario, RendaFixa, Acao
 from werkzeug.datastructures import MultiDict
 
 @app.route("/")
@@ -60,14 +60,23 @@ def addImobiliario():
 def addRenda_fixa():
     form = Renda_fixaForm()
 
-    print(form.maturity_date.data)
-
     if form.validate_on_submit():
         form.save()
         return redirect(url_for("perfil"))
 
 
     return render_template('renda_fixaForm.html', form=form)    
+
+@app.route("/investimento_acao/", methods=['POST', 'GET'])
+@login_required
+def addAcao():
+    form = AcaoForm()
+
+    if form.validate_on_submit():
+        form.save()
+        return redirect(url_for("perfil"))
+    
+    return render_template('acaoForm.html', form=form)
 
 @app.route("/perfil/escolher_investimento")
 @login_required
@@ -143,13 +152,19 @@ def logout():
 @app.route("/deleteInvestment/<int:id>/<string:type>")
 @login_required
 def deleteInvestment(id, type):
+
+    investment = False
+
     if type == 'imobiliario':
         investment = Imobiliario.query.get_or_404(id)
 
     if type == 'renda_fixa':
         investment = RendaFixa.query.get_or_404(id)
 
-    if investment.carteira_id != current_user.carteira.id:
+    if type == 'acao':
+        investment = Acao.query.get_or_404(id)
+
+    if not investment:
         return "Não autorizado", 403
 
     db.session.delete(investment)

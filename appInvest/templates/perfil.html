@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfil.css') }}">
 <h1>{{ context.investidor.name }}</h1>
 
+<!-- # Imobiliario -->
 <ul> 
     {% if context.carteira.imobiliario %}
     <h4>Investimento imobiliário</h4>
@@ -47,6 +48,7 @@
     {% endif %}
 </ul>
 
+<!-- # Renda_fixa -->
 <ul>
     {% if context.carteira.renda_fixa %}
     <h4>Renda fixa</h4>
@@ -61,6 +63,37 @@
                 <form action="{{ url_for('deleteInvestment', id=investimento.id, type='renda_fixa') }}">
                     <button type="submit">Deletar</button>
                 </form>
+
+            </li>
+        {% endfor %}
+    {% endif %}
+</ul>
+
+<!-- # Ação -->
+<ul>
+    {% if context.carteira.acao %}
+    <h4>Acao</h4>
+        {% for investimento in context.carteira.acao %}
+            <li>
+                Ticker: {{ investimento.ticker }}<br/>
+                Nome: {{ investimento.name }}<br/>
+                Valor investido: {{ investimento.invested_value }}<br/>
+                Quantidade investida: {{ investimento.quantity }}
+
+                <form action="{{ url_for('deleteInvestment', id=investimento.id, type='acao') }}">
+                    <button type="submit">Deletar</button>
+                </form>
+
+                <form action="" method="post">
+                    <input type="hidden" name="acao" value="lucro">
+                    <input type="hidden" name="investimento_id" value="{{ investimento.id }}">
+                    Valor atual da cota: <input type="text" name="lucro">
+                    <button type="submit">Calcular lucro/perda</button><br/>
+                </form>
+
+                {% if context.resultado_lucro and context.valor_cota %}
+                Valor a receber: {{ context.resultado_lucro }}<br/>
+                {% endif %}
 
             </li>
         {% endfor %}
