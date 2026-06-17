@@ -94,7 +94,7 @@ def perfil():
     valor_cota = None
 
     if request.method=='POST':
-        acao = request.form.get("acao")
+        acao, tipo = request.form.get("acao").split("-")
         investimento_id = request.form.get("investimento_id")
 
         investimento = Imobiliario.query.get(investimento_id)
@@ -113,7 +113,8 @@ def perfil():
         "resultado": resultado,
         "investimento_calculado_id": investimento_id,
         "resultado_lucro": resultado_lucro,
-        "valor_cota": valor_cota
+        "valor_cota": valor_cota,
+        "tipo": tipo
     }
 
     return render_template('perfil.html', context=context)

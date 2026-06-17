@@ -28,13 +28,13 @@
                 {% endif %}
 
                 <form action="" method="post">
-                    <input type="hidden" name="acao" value="lucro">
+                    <input type="hidden" name="acao" value="lucro-imobiliario">
                     <input type="hidden" name="investimento_id" value="{{ investimento.id }}">
                     Valor atual da cota: <input type="text" name="lucro">
                     <button type="submit">Calcular lucro/perda</button><br/>
                 </form>
 
-                {% if context.resultado_lucro and context.valor_cota %}
+                {% if context.resultado_lucro and context.valor_cota and context.tipo == 'imobiliario' %}
                 Valor a receber: {{ context.resultado_lucro }}<br/>
                 {% endif %}
 
@@ -85,13 +85,13 @@
                 </form>
 
                 <form action="" method="post">
-                    <input type="hidden" name="acao" value="lucro">
+                    <input type="hidden" name="acao" value="lucro-acao">
                     <input type="hidden" name="investimento_id" value="{{ investimento.id }}">
                     Valor atual da cota: <input type="text" name="lucro">
                     <button type="submit">Calcular lucro/perda</button><br/>
                 </form>
 
-                {% if context.resultado_lucro and context.valor_cota %}
+                {% if context.resultado_lucro and context.valor_cota and context.tipo == 'acao' %}
                 Valor a receber: {{ context.resultado_lucro }}<br/>
                 {% endif %}
 
