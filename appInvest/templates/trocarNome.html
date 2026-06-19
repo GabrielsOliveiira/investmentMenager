@@ -1,0 +1,18 @@
+<div id="modalNome" class="modal">
+    <div class="modal-content">
+        <span class="fechar" onclick="fecharModal()">&times;</span>
+
+        <h2>Alterar nome</h2>
+
+        <form action="{{ url_for('alterar_nome') }}" method="POST">
+            <input
+                type="text"
+                name="novo_nome"
+                placeholder="Digite o novo nome"
+                required
+            >
+
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+</div>

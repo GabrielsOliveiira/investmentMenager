@@ -92,6 +92,7 @@ def perfil():
     resultado_lucro = None
     investimento_id = None
     valor_cota = None
+    tipo = False
 
     if request.method=='POST':
         acao, tipo = request.form.get("acao").split("-")
@@ -171,4 +172,12 @@ def deleteInvestment(id, type):
     db.session.delete(investment)
     db.session.commit()
 
+    return redirect(url_for("perfil"))
+
+@app.route("/atulizar nome/", methods=['GET', 'POST'])
+@login_required
+def updateName():
+    novo_nome = request.form.get("novo_nome")
+    current_user.name = novo_nome
+    db.session.commit()
     return redirect(url_for("perfil"))

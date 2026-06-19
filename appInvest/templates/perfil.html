@@ -4,7 +4,27 @@
 
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfil.css') }}">
+<script src="{{ url_for('static', filename='js/popUp.js') }}"></script>
+
 <h1>{{ context.investidor.name }}</h1>
+
+<div class="acoes-perfil">
+    <button onclick="abrirModal()">Alterar nome</button>
+</div>
+
+<div id="modal">
+    <div id="modal_content">
+        <h2>Alterar nome</h2>
+
+        <form action="{{ url_for('updateName') }}" method="POST">
+            <input type="text" name="novo_nome" placeholder="Digite o novo nome">
+            <button type="submit">Salvar</button>
+        </form>
+
+        <button onclick="fecharModal()">Cancelar</button>
+    </div>
+</div>
+
 
 <!-- # Imobiliario -->
 <ul> 
@@ -104,6 +124,5 @@
     <a href="{{url_for('logout')}}">Deslogar</a>
     <a href="{{url_for('escolher_investimento')}}">Adicionar investimento</a>
 </div>
-
 
 {% endblock %}
