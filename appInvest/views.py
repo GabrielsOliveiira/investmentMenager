@@ -35,9 +35,8 @@ def login():
     email = request.args.get("email")
     senha = request.args.get("password")
     investidor = Investor.query.filter_by(email=email).first()
-    validar_senha = check_password_hash(investidor.senha, senha)
 
-    if investidor and validar_senha:
+    if investidor and check_password_hash(investidor.senha, senha):
         login_user(investidor)
         return redirect(url_for("perfil"))
     

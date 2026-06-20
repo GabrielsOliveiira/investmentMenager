@@ -4,7 +4,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styleEscolherInvestimento.css') }}">
-<div class="investimentos-container"></div>
+<div class="investimentos-container">
     <a class="invest-btn" href="{{url_for('addImobiliario')}}">Imobiliario</a>
     <a class="invest-btn" href="{{url_for('addRenda_fixa')}}">Renda fixa</a>
     <a class="invest-btn" href="{{url_for('addAcao')}}">Ação</a>

@@ -1,11 +1,19 @@
+body {
+    display: flex;
+    margin: 0px;
+    min-height: 100vh;
+}
+
 .investimentos-container {
-    max-width: 500px;
-    margin: 80px auto;
+    min-width: 500px;
+    margin: auto;
     padding: 30px;
+    padding-bottom: 60px;
     text-align: center;
 }
 
 .investimentos-container h1 {
+    max-width: 500px;
     margin-bottom: 30px;
     color: #333;
     font-size: 2rem;
