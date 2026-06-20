@@ -1,7 +1,8 @@
+from flask_login import current_user
 from flask_wtf  import FlaskForm
 from wtforms.fields import StringField, DateField, SubmitField, FloatField, IntegerField, PasswordField
 from wtforms.validators import DataRequired, Email, Length
-from flask_login import current_user
+from werkzeug.security import generate_password_hash
 
 from appInvest import db
 from appInvest.models import Investor, Imobiliario, RendaFixa, Carteira, Acao
@@ -23,7 +24,7 @@ class InvestorForm(FlaskForm):
         investor = Investor(
             nome = self.nome.data,
             email = self.email.data,
-            senha = self.senha.data
+            senha = generate_password_hash(self.senha.data)
         )
 
         db.session.add(investor)

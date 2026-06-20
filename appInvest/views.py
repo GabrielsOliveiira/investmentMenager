@@ -1,6 +1,7 @@
 from appInvest import app, db
 from flask import render_template, url_for, request, redirect
 from flask_login import current_user, login_required, login_user, logout_user
+from werkzeug.security import check_password_hash
 
 from appInvest.stringMenager import toFloat
 from appInvest.forms import InvestorForm, ImobiliarioForm, Renda_fixaForm, AcaoForm
@@ -33,9 +34,10 @@ def invertorForm():
 def login():
     email = request.args.get("email")
     senha = request.args.get("password")
-    investidor = Investor.query.filter_by(email=email, senha=senha).first()
+    investidor = Investor.query.filter_by(email=email).first()
+    validar_senha = check_password_hash(investidor.senha, senha)
 
-    if investidor:
+    if investidor and validar_senha:
         login_user(investidor)
         return redirect(url_for("perfil"))
     
