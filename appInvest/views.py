@@ -16,9 +16,11 @@ def invertorForm():
     emailUsado = False
     form = InvestorForm()
     if form.validate_on_submit():
-        retorno = form.save()
-        if retorno != "Email já cadastrado":
-            return redirect(url_for("homepage"))
+        novo_usuario = form.save()
+        if novo_usuario != "Email já cadastrado":
+            login_user(novo_usuario)
+            return redirect(url_for("perfil"))
+        
         emailUsado = True
 
     context = {
@@ -33,8 +35,8 @@ def login():
     investidor = Investor.query.filter_by(email=email).first()
 
     if investidor:
-         login_user(investidor)
-         return redirect(url_for("perfil"))
+        login_user(investidor)
+        return redirect(url_for("perfil"))
     
     return render_template('login.html', naoEncontrado=email)
 
@@ -178,6 +180,6 @@ def deleteInvestment(id, type):
 @login_required
 def updateName():
     novo_nome = request.form.get("novo_nome")
-    current_user.name = novo_nome
+    current_user.nome = novo_nome
     db.session.commit()
     return redirect(url_for("perfil"))

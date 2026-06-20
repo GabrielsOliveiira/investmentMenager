@@ -1,14 +1,15 @@
 from flask_wtf  import FlaskForm
 from wtforms.fields import StringField, DateField, SubmitField, FloatField, IntegerField
-from wtforms.validators import DataRequired, Email
+from wtforms.validators import DataRequired, Email, Length
 from flask_login import current_user
 
 from appInvest import db
 from appInvest.models import Investor, Imobiliario, RendaFixa, Carteira, Acao
 
 class InvestorForm(FlaskForm):
-    name = StringField('name', validators=[DataRequired()])
+    nome = StringField('name', validators=[DataRequired()])
     email = StringField('email', validators=[DataRequired(), Email()])
+    senha = StringField('senha', validators=[DataRequired(), Length(min=8, max=100)])
     btnSubmit = SubmitField('Enviar')
 
     def save(self):
@@ -20,8 +21,9 @@ class InvestorForm(FlaskForm):
 
 
         investor = Investor(
-            name = self.name.data,
+            nome = self.nome.data,
             email = self.email.data,
+            senha = self.senha.data
         )
 
         db.session.add(investor)
@@ -31,6 +33,8 @@ class InvestorForm(FlaskForm):
 
         db.session.add(nova_carteira)
         db.session.commit()
+
+        return investor
 
 class ImobiliarioForm(FlaskForm):
     name = StringField('Nome', validators=[DataRequired()])
