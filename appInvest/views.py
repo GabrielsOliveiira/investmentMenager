@@ -32,7 +32,8 @@ def invertorForm():
 @app.route("/login/")
 def login():
     email = request.args.get("email")
-    investidor = Investor.query.filter_by(email=email).first()
+    senha = request.args.get("password")
+    investidor = Investor.query.filter_by(email=email, senha=senha).first()
 
     if investidor:
         login_user(investidor)

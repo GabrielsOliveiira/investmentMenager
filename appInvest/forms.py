@@ -1,5 +1,5 @@
 from flask_wtf  import FlaskForm
-from wtforms.fields import StringField, DateField, SubmitField, FloatField, IntegerField
+from wtforms.fields import StringField, DateField, SubmitField, FloatField, IntegerField, PasswordField
 from wtforms.validators import DataRequired, Email, Length
 from flask_login import current_user
 
@@ -9,7 +9,7 @@ from appInvest.models import Investor, Imobiliario, RendaFixa, Carteira, Acao
 class InvestorForm(FlaskForm):
     nome = StringField('name', validators=[DataRequired()])
     email = StringField('email', validators=[DataRequired(), Email()])
-    senha = StringField('senha', validators=[DataRequired(), Length(min=8, max=100)])
+    senha = PasswordField('senha', validators=[DataRequired(), Length(min=8, max=100)])
     btnSubmit = SubmitField('Enviar')
 
     def save(self):
