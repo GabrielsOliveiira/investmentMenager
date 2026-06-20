@@ -3,12 +3,17 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from appInvest.stringMenager import dias_restantes, projecaoGanhos
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///meubanco.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'DAwdasdWaDSADWA5d5a4d8ad4adawdasshdgnykvmul9oipoiyr56344252d'
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
